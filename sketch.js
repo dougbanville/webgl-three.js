@@ -42,26 +42,37 @@ const sketch = ({ context }) => {
   const geometry = new THREE.SphereGeometry(1, 32, 16);
 
   // Setup a material
-  const material = new THREE.MeshBasicMaterial({
-    map: texture
+  const material = new THREE.MeshStandardMaterial({
+    map: texture,
+    roughness: 1,
+    metalnes: 0,
   });
 
   const moonGroup = new THREE.Group();
 
-  const moonMaterial = new THREE.MeshBasicMaterial({
-    map: moonTexture
+  const moonMaterial = new THREE.MeshStandardMaterial({
+    map: moonTexture,
+    roughness: 1,
+    metalnes: 0,
   });
   
 
   // Setup a mesh with geometry + material
   const mesh = new THREE.Mesh(geometry, material);
+  const light = new THREE.PointLight('white', 2);
+  light.position.set(2, 2, 0)
   scene.add(mesh);
   scene.add(moonGroup)
 
   const moonMesh = new THREE.Mesh(geometry, moonMaterial);
-  moonMesh.position.set(1.3, 0.8, 0);
+  moonMesh.position.set(0.9, 1, 0);
   moonMesh.scale.setScalar(0.25)
   moonGroup.add(moonMesh);
+  moonGroup.add(light)
+
+  scene.add(light)
+  scene.add(new THREE.PointLightHelper(light,0.15))
+
 
   // draw each frame
   return {
